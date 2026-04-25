@@ -1,0 +1,12 @@
+{
+  "search.exclude": {
+    "**/.claude": true,
+    "**/.claude/**": true,
+    ".claude/**": true
+  },
+  "files.exclude": {
+    "**/.claude": true,
+    "**/.claude/**": true,
+    ".claude/**": true
+  }
+}
