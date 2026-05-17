@@ -17,6 +17,7 @@ services:
     environment:
       - ServiceUrls__AuthAPI=http://host.docker.internal:7002
       - ServiceUrls__TrackerAPI=http://host.docker.internal:7003
+      - ASPNETCORE_HTTP_PORTS=7001
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
