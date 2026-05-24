@@ -46,7 +46,7 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .Enrich.WithProperty("ApplicationName", "FrontEndWeb")
     .Enrich.FromLogContext()
-    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200"))
+    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://host.docker.internal:9200"))
     {
         IndexFormat = "frontendweb-logs-{0:yyyy.MM.dd}",
         AutoRegisterTemplate = true
