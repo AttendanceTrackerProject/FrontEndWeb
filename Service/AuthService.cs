@@ -9,10 +9,12 @@ namespace AttendanceTrackerMicroservices.Service
     public class AuthService : IAuthService
     {
         private readonly IBaseService _baseService;
+        private readonly ILogger<AuthService> _logger;
 
-        public AuthService(IBaseService baseService)
+        public AuthService(IBaseService baseService, ILogger<AuthService> logger)
         {
             _baseService = baseService;
+            _logger = logger;
         }
 
         public async Task<ResponseDTO?> AssignRoleAsync(RegistrationRequestDTO assignRoleRequest)
@@ -33,6 +35,9 @@ namespace AttendanceTrackerMicroservices.Service
                 Data = loginRequest,
                 Url = AuthAPIBase + "/api/auth/login"
             };
+
+            _logger.LogInformation("LoginAsync started - attempting login for user: {Username}",
+                loginRequest.UserName);
 
             return await _baseService.SendAsync(request, withBearer: false);
         }

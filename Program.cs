@@ -3,6 +3,8 @@ using AttendanceTrackerMicroservices.Service;
 using AttendanceTrackerMicroservices.Service.IService;
 using AttendanceTrackerMicroservices.Utility;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +41,19 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Auth/Login";
         options.AccessDeniedPath = "/Auth/AccessDenied";
     });
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .Enrich.WithProperty("ApplicationName", "FrontEndWeb")
+    .Enrich.FromLogContext()
+    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200"))
+    {
+        IndexFormat = "frontendweb-logs-{0:yyyy.MM.dd}",
+        AutoRegisterTemplate = true
+    })
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 

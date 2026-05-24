@@ -18,6 +18,23 @@ services:
       - ServiceUrls__AuthAPI=http://host.docker.internal:7002
       - ServiceUrls__TrackerAPI=http://host.docker.internal:7003
       - ASPNETCORE_HTTP_PORTS=7001
+    depends_on:
+      - elasticsearch
+  
+  elasticsearch:
+    image: elasticsearch:7.17.5
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+  
+  kibana:
+    image: kibana:7.17.5
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
